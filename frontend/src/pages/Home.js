@@ -89,7 +89,7 @@ export default function Home() {
         </Card>
       )}
 
-      {!toggleForm && (
+      {user.isAdmin && !toggleForm && (
         <div className="mx-auto mb-10">
           <Button
             type="submit"
