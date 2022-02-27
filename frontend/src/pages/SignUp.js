@@ -14,26 +14,28 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const signUp = (e) => {
+  const signUp = async (e) => {
     e.preventDefault();
     if (!email || !password || !name) {
       toast.error("please fill all details");
       return;
     }
-    const signUpUser = async () => {
+
+    try {
       const user = await userService.signUpUser(name, email, password);
-      console.log(user.data);
       if (user.data) {
         dispatch(signUpAction(user.data));
-        // console.log(email, password, name);
         toast.success("signed up");
         setEmail("");
         setPassword("");
         setName("");
         history.push("/");
+      } else if (user.error) {
+        throw new Error(user.message);
       }
-    };
-    signUpUser();
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   return (

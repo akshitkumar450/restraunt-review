@@ -2,7 +2,6 @@ import {
   TextareaAutosize,
   Button,
   FormControl,
-  InputLabel,
   Select,
   MenuItem,
 } from "@mui/material";
@@ -34,17 +33,14 @@ function Details() {
     else history.push("/");
   }, [id, history]);
 
-  const addComment = (e) => {
+  const addComment = async (e) => {
     e.preventDefault();
-    const addedComment = async () => {
-      const data = await postService.addReview({ comment, rating });
-      // console.log({ ...data.data, name: user.name });
-      const newComment = { ...data.data, name: user.name, rating: rating };
-      const newReviews = [...restro.reviews, newComment];
-      // console.log(newReviews);
-      restro.reviews = newReviews;
-    };
-    addedComment();
+    const data = await postService.addReview({ comment, rating });
+    // console.log({ ...data.data, name: user.name });
+    const newComment = { ...data.data, name: user.name, rating: rating };
+    const newReviews = [...restro.reviews, newComment];
+    // console.log(newReviews);
+    restro.reviews = newReviews;
   };
 
   return (

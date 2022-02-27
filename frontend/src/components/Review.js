@@ -8,16 +8,13 @@ function Review({ comment, name, date, reviewRating }) {
   const [rating, setRating] = useState(reviewRating);
 
   const handleRating = (newValue) => {
-    if (!user) {
-      toast.error("you are not logged in");
-      return;
-    }
-    if (user?.role === "user") {
+    if (!user.isAdmin) {
       setRating(newValue);
-    } else if (user?.role !== "user") {
-      toast.error("you are not logged in as user");
+    } else if (user.isAdmin) {
+      toast.error("you are not logged in as same user");
     }
   };
+
   return (
     <div className="ring-1 ring-gray-300 p-2 rounded-lg bg-gray-300 lg:w-1/4">
       <p className="font-bold">{name}</p>

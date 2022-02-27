@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import SingleCard from "../components/RestroCard";
+import RestroCard from "../components/RestroCard";
 import { postService } from "../services/PostServices";
 import Pagination from "@mui/material/Pagination";
 
-export default function RestroCard() {
+export default function Home() {
   const [restros, setRestros] = useState([]);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function RestroCard() {
   return (
     <div className="grid gap-y-3 my-10">
       {restros.data?.map((restro) => (
-        <SingleCard key={restro.id} restro={restro} />
+        <RestroCard key={restro.id} restro={restro} />
       ))}
       <Pagination count={10} className="mx-auto" />
     </div>

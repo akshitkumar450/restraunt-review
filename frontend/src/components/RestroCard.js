@@ -22,24 +22,18 @@ function RestroCard({ restro }) {
     setEditLocation(restro.location);
   };
 
-  const handleSave = () => {
-    const editData = async () => {
-      const data = await postService.editData(
-        { editName, editLocation },
-        restro.id
-      );
-      console.log(data);
-    };
-    editData();
+  const handleSave = async () => {
+    const data = await postService.editData(
+      { editName, editLocation },
+      restro.id
+    );
+    console.log(data);
     setEditable(false);
   };
 
-  const handleDelete = () => {
-    const deleteData = async () => {
-      const data = await postService.deleteData(restro.id);
-      console.log(data);
-    };
-    deleteData();
+  const handleDelete = async () => {
+    const data = await postService.deleteData(restro.id);
+    console.log(data);
   };
 
   const handleCancel = () => {
@@ -47,13 +41,9 @@ function RestroCard({ restro }) {
   };
 
   const handleRating = (newValue) => {
-    if (!user) {
-      toast.error("you are not logged in");
-      return;
-    }
-    if (user?.role === "user") {
+    if (!user.isAdmin) {
       setRating(newValue);
-    } else if (user?.role !== "user") {
+    } else if (user.isAdmin) {
       toast.error("you are not logged in as user");
     }
   };
@@ -107,7 +97,7 @@ function RestroCard({ restro }) {
           />
         </div>
         <div>
-          {user?.role === "admin" && (
+          {user.isAdmin && (
             <>
               {editable ? (
                 <Button

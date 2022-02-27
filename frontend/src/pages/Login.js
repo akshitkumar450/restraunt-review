@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loginAction } from "../redux/actions/userActions";
 import { userService } from "../services/UserServices";
+
 function Login() {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -13,26 +14,26 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const login = (e) => {
+  const login = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       toast.error("please fill all details");
       return;
     }
-
-    const loginUser = async () => {
+    try {
       const user = await userService.logInUser(email, password);
-      // console.log(user.data);
       if (user.data) {
         dispatch(loginAction(user.data));
-        // console.log(email, password);
         toast.success("logged in");
         setEmail("");
         setPassword("");
         history.push("/");
+      } else if (user.error) {
+        throw new Error(user.message);
       }
-    };
-    loginUser();
+    } catch (err) {
+      toast.error(err.message);
+    }
   };
 
   return (

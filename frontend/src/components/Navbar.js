@@ -32,7 +32,7 @@ function NavBar() {
           ))
         ) : (
           <>
-            {user.role === "admin" && (
+            {user.isAdmin && (
               <h2 className="text-2xl cursor-pointer" onClick={showAllUsers}>
                 All Users
               </h2>

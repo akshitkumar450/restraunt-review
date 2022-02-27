@@ -37,7 +37,7 @@ export const postService = {
     console.log(comment, rating);
     return {
       data: {
-        date: new Date().toString(),
+        date: new Date().toDateString(),
         rating: rating,
         comment,
       },

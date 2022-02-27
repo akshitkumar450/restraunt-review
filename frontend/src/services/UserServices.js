@@ -1,19 +1,21 @@
+import { usersData } from "../data/userData";
+
 export const userService = {
   logInUser: async (email, password) => {
     return {
       data: {
         email,
         name: "Random user 1",
-        role: Math.random() > 0.5 ? "user" : "admin",
-        isAdmin: false, //true// backend
+        // role: Math.random() > 0.5 ? "user" : "admin",
+        isAdmin: Math.random() > 0.5 ? true : false,
+        // isAdmin: false, //true// backend
         token: Math.floor(Math.random() * 15000),
       },
     };
-
-    // for backend api
+    // for error
     // return {
     //   error: true,
-    //   message: "Invalid Creds",
+    //   message: "Invalid Credentials",
     // };
   },
   signUpUser: async (name, email, password) => {
@@ -21,10 +23,27 @@ export const userService = {
       data: {
         name,
         email,
-        role: Math.random() > 0.5 ? "user" : "admin",
-        isAdmin: false, //true// backend
+        // role: Math.random() > 0.5 ? "user" : "admin",
+        isAdmin: Math.random() > 0.5 ? true : false,
         token: Math.floor(Math.random() * 15000),
       },
+    };
+    // for error
+    // return {
+    //   error: true,
+    //   message: "Invalid Credentials",
+    // };
+  },
+
+  getAllUsers: async () => {
+    return {
+      data: usersData,
+    };
+  },
+  deleteUser: async (id) => {
+    let temp = usersData.filter((item) => item.id !== id);
+    return {
+      data: temp,
     };
   },
 };

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import { Button, MenuItem, FormControl, Select } from "@mui/material";
+import { userService } from "../services/UserServices";
 
 export default function UserCard({ user }) {
   const [editable, setEditable] = useState(false);
@@ -10,13 +11,13 @@ export default function UserCard({ user }) {
   const [editPassword, setEditPassword] = useState("");
 
   useEffect(() => {
-    setEditRole(user.role);
+    setEditRole(user.isAdmin ? "admin" : "user");
   }, [user]);
 
   const defaultValues = () => {
     setEditName(user.name);
     setEditEmail(user.email);
-    setEditRole(user.role);
+    setEditRole(user.isAdmin ? "admin" : "user");
     setEditPassword(user.password);
   };
 
@@ -29,7 +30,7 @@ export default function UserCard({ user }) {
     setEditable(false);
     user.name = editName;
     user.email = editEmail;
-    user.role = editRole;
+    user.isAdmin = editRole === "admin" ? true : false;
     user.password = editPassword;
   };
 
@@ -38,7 +39,11 @@ export default function UserCard({ user }) {
     setEditable(false);
   };
 
-  const handleDelete = () => {};
+  const handleDelete = async () => {
+    // console.log(user.id);
+    const usersAfterDelete = await userService.deleteUser(user.id);
+    console.log(usersAfterDelete);
+  };
   return (
     <Card className="flex items-start justify-around w-1/2 mx-auto p-2  my-5">
       <div>
@@ -101,7 +106,7 @@ export default function UserCard({ user }) {
             </FormControl>
           </div>
         ) : (
-          <h1>Role: {user.role}</h1>
+          <h1>Role: {user.isAdmin ? "admin" : "user"}</h1>
         )}
 
         {editable ? (
