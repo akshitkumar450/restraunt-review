@@ -40,10 +40,24 @@ export const userService = {
       data: usersData,
     };
   },
+
   deleteUser: async (id) => {
     let temp = usersData.filter((item) => item.id !== id);
     return {
       data: temp,
+    };
+  },
+
+  addUser: async (data) => {
+    const { name, email, password, role } = data;
+    return {
+      data: {
+        id: Math.random() + 1,
+        name,
+        email,
+        password,
+        role,
+      },
     };
   },
 };
