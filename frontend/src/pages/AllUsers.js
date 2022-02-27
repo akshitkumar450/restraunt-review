@@ -100,9 +100,15 @@ function AllUsers() {
                 </Select>
               </FormControl>
             </div>
-            <div>
+            <div className="flex gap-2">
               <Button type="submit" variant="contained">
                 Add User
+              </Button>
+              <Button
+                onClick={() => setToggleForm(false)}
+                color="error"
+                variant="contained">
+                Cancel
               </Button>
             </div>
           </form>

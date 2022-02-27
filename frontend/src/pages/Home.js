@@ -30,6 +30,9 @@ export default function Home() {
       // console.log({ ...data.data });
       setRestros([{ ...data.data }, ...restros]);
       toast.success("added");
+      setLocation("");
+      setName("");
+      setRating(0);
     } catch (e) {
       console.log(e);
     }
@@ -71,9 +74,15 @@ export default function Home() {
                 }}
               />
             </div>
-            <div>
+            <div className="flex gap-2 ">
               <Button type="submit" variant="contained">
                 Add Restraunt
+              </Button>
+              <Button
+                color="error"
+                onClick={() => setToggleForm(false)}
+                variant="contained">
+                Cancel
               </Button>
             </div>
           </form>
