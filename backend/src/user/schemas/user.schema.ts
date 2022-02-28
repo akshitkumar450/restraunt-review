@@ -1,0 +1,15 @@
+import * as Joi from 'joi';
+
+export const createUserSchema = Joi.object({
+  name: Joi.string().required(),
+  email: Joi.string().required(),
+  password: Joi.string().required(),
+  isAdmin: Joi.boolean(),
+});
+
+export const updateUserSchema = Joi.object({
+  name: Joi.string(),
+  email: Joi.string(),
+  password: Joi.string(),
+  isAdmin: Joi.boolean(),
+});
