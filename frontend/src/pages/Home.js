@@ -10,31 +10,40 @@ export default function Home() {
   const [restros, setRestros] = useState([]);
   const user = useSelector((state) => state.user.user);
   const [toggleForm, setToggleForm] = useState(false);
+  const [toggle, setToggle] = useState(true);
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [rating, setRating] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await postService.getAllData();
-      setRestros(data.data);
+      try {
+        const data = await postService.getRestraunts();
+        setRestros(data.data);
+      } catch (err) {
+        toast.error("error fetching data");
+      }
     };
     fetchData();
-  }, []);
+  }, [toggle]);
+
+  const handleToggle = () => {
+    setToggle(!toggle);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setToggleForm(false);
     try {
-      const data = await postService.postData({ name, location, rating });
-      // console.log({ ...data.data });
-      setRestros([{ ...data.data }, ...restros]);
+      const data = await postService.createRestraunt({ name, location });
       toast.success("added");
       setLocation("");
       setName("");
-      setRating(0);
-    } catch (e) {
-      console.log(e);
+      // setRating(0);
+      console.log(data.data);
+      setToggleForm(false);
+      handleToggle();
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -101,7 +110,11 @@ export default function Home() {
       )}
 
       {restros?.map((restro) => (
-        <RestroCard key={restro.id} restro={restro} />
+        <RestroCard
+          key={restro.id}
+          restro={restro}
+          handleToggle={handleToggle}
+        />
       ))}
       <Pagination count={10} className="mx-auto" />
     </div>

@@ -7,7 +7,7 @@ import Rating from "@mui/material/Rating";
 import { toast } from "react-toastify";
 import { useLocation } from "react-router-dom";
 
-function RestroCard({ restro }) {
+function RestroCard({ restro, handleToggle }) {
   const location = useLocation();
   const user = useSelector((state) => state.user.user);
 
@@ -23,17 +23,27 @@ function RestroCard({ restro }) {
   };
 
   const handleSave = async () => {
-    const data = await postService.editData(
-      { editName, editLocation },
-      restro.id
-    );
-    console.log(data);
-    setEditable(false);
+    try {
+      const data = await postService.updateRestraunt(restro.id, {
+        editName,
+        editLocation,
+      });
+      console.log(data);
+      setEditable(false);
+      handleToggle();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleDelete = async () => {
-    const data = await postService.deleteData(restro.id);
-    console.log(data);
+    try {
+      const data = await postService.deleteRestraunt(restro.id);
+      console.log(data);
+      handleToggle();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleCancel = () => {

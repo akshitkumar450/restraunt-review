@@ -1,56 +1,54 @@
-import { restrosData } from "../data/restroData";
+// import { restrosData } from "../data/restroData";
+
+import axios from "axios";
+
+const API_URL = "http://localhost:5000";
 
 export const postService = {
-  getAllData: async () => {
+  getRestraunts: async () => {
+    const restrosData = await axios.get(`${API_URL}/restros`);
+    // console.log(restrosData.data);
     return {
-      data: restrosData,
+      data: restrosData.data,
     };
   },
 
-  postData: async (data) => {
-    const { name, location, rating } = data;
+  createRestraunt: async (data) => {
+    const { name, location } = data;
+    const restrosData = await axios.post(`${API_URL}/restros`, {
+      name,
+      location,
+    });
     return {
-      data: {
-        id: restrosData.length + 1,
-        name,
-        location,
-        rating,
-        img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cmVzdGF1cmFudHxlbnwwfHwwfHw%3D&w=1000&q=80",
-        reviews: [],
-      },
+      data: restrosData.data,
     };
   },
 
-  editData: async (data, id) => {
-    // console.log(data, id);
+  updateRestraunt: async (id, data) => {
     const { editName, editLocation } = data;
-    let temp = restrosData.map((item) =>
-      item.id === id
-        ? { ...item, name: editName, location: editLocation }
-        : item
-    );
-    return {
-      data: temp,
-    };
+    const restrauntAfterUpdate = await axios.put(`${API_URL}/restros/${id}`, {
+      name: editName,
+      location: editLocation,
+    });
+    console.log(restrauntAfterUpdate);
+    return;
   },
 
-  deleteData: async (id) => {
-    console.log(id);
-    let temp = restrosData.filter((item) => item.id !== id);
-    return {
-      data: temp,
-    };
+  deleteRestraunt: async (id) => {
+    const restrauntAfterDelete = await axios.delete(`${API_URL}/restros/${id}`);
+    console.log(restrauntAfterDelete);
+    return;
   },
 
-  addReview: async (data) => {
-    const { comment, rating } = data;
-    console.log(comment, rating);
-    return {
-      data: {
-        date: new Date().toDateString(),
-        rating: rating,
-        comment,
-      },
-    };
-  },
+  // addReview: async (data) => {
+  //   const { comment, rating } = data;
+  //   console.log(comment, rating);
+  //   return {
+  //     data: {
+  //       date: new Date().toDateString(),
+  //       rating: rating,
+  //       comment,
+  //     },
+  //   };
+  // },
 };
