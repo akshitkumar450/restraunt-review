@@ -1,4 +1,7 @@
+import axios from "axios";
 import { usersData } from "../data/userData";
+
+const API_URL = "http://localhost:5000";
 
 export const userService = {
   logInUser: async (email, password) => {
@@ -12,6 +15,7 @@ export const userService = {
         token: Math.floor(Math.random() * 15000),
       },
     };
+
     // for error
     // return {
     //   error: true,
@@ -36,27 +40,49 @@ export const userService = {
   },
 
   getAllUsers: async () => {
+    const users = await axios.get(`${API_URL}/user`);
     return {
-      data: usersData,
+      data: users.data,
     };
   },
 
   deleteUser: async (id) => {
-    let temp = usersData.filter((item) => item.id !== id);
-    return {
-      data: temp,
-    };
+    const users = await axios.delete(`${API_URL}/user/${id}`);
+    console.log(users);
+    return {};
   },
 
-  addUser: async (data) => {
-    const { name, email, password, role } = data;
+  createUser: async (data) => {
+    const { name, email, password, isAdmin } = data;
+    const users = await axios.post(`${API_URL}/user`, {
+      name,
+      email,
+      password,
+      isAdmin,
+    });
+    // console.log(users.data);
     return {
       data: {
-        id: Math.random() + 1,
         name,
         email,
         password,
-        role,
+        isAdmin,
+      },
+    };
+  },
+  updateUser: async (id, data) => {
+    console.log(data, id);
+    const { editName, editEmail, editPassword, isAdmin } = data;
+    const updatedUser = await axios.put(`${API_URL}/user/${id}`, {
+      name: editName,
+      email: editEmail,
+      password: editPassword,
+      isAdmin,
+    });
+    // console.log(updatedUser.data);
+    return {
+      data: {
+        data: updatedUser.user,
       },
     };
   },

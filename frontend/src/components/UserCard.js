@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import { Button, MenuItem, FormControl, Select } from "@mui/material";
 import { userService } from "../services/UserServices";
 
-export default function UserCard({ user }) {
+export default function UserCard({ user, handleToggle }) {
   const [editable, setEditable] = useState(false);
   const [editName, setEditName] = useState("");
   const [editEmail, setEditEmail] = useState("");
@@ -26,12 +26,27 @@ export default function UserCard({ user }) {
     defaultValues();
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     setEditable(false);
-    user.name = editName;
-    user.email = editEmail;
-    user.isAdmin = editRole === "admin" ? true : false;
-    user.password = editPassword;
+    // console.log(editName, editEmail, editPassword, editRole);
+    const isAdmin = editRole === "admin" ? true : false;
+    try {
+      const data = await userService.updateUser(user.id, {
+        editName,
+        editEmail,
+        isAdmin,
+        editPassword,
+      });
+      // console.log(data);
+      setEditable(false);
+      handleToggle();
+    } catch (err) {
+      console.log(err);
+    }
+    // user.name = editName;
+    // user.email = editEmail;
+    // user.isAdmin = editRole === "admin" ? true : false;
+    // user.password = editPassword;
   };
 
   const handleCancel = () => {
@@ -43,6 +58,7 @@ export default function UserCard({ user }) {
     // console.log(user.id);
     const usersAfterDelete = await userService.deleteUser(user.id);
     console.log(usersAfterDelete);
+    handleToggle();
   };
   return (
     <Card className="flex items-start justify-around w-1/2 mx-auto p-2  my-5">

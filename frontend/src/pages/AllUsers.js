@@ -20,28 +20,42 @@ function AllUsers() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
+  const [toggle, setToggle] = useState(false);
 
   const handleChange = (event) => {
     setRole(event.target.value);
   };
 
+  const handleToggle = () => {
+    setToggle(!toggle);
+  };
+
   useEffect(() => {
     const fetchUsers = async () => {
-      const data = await userService.getAllUsers();
-      console.log(data);
-      setUsers(data.data);
+      try {
+        const data = await userService.getAllUsers();
+        setUsers(data.data);
+      } catch (err) {
+        console.log(err);
+      }
     };
     fetchUsers();
-  }, []);
+  }, [toggle]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setToggleForm(false);
     console.log(name, email, password, role);
+    const isAdmin = role === "admin" ? true : false;
+
     try {
-      const data = await userService.addUser({ name, email, password, role });
-      // console.log(data.data);
-      setUsers([{ ...data.data }, ...users]);
+      const data = await userService.createUser({
+        name,
+        email,
+        password,
+        isAdmin,
+      });
+      handleToggle(!toggle);
       toast.success("user added");
     } catch (err) {
       console.log(err.message);
@@ -127,7 +141,7 @@ function AllUsers() {
 
       <>
         {users?.map((user) => (
-          <UserCard key={user.id} user={user} />
+          <UserCard key={user.id} user={user} handleToggle={handleToggle} />
         ))}
       </>
       <Pagination count={10} className="mx-auto my-10" />
