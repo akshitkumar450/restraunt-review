@@ -6,8 +6,19 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
-import { createUserSchema, updateUserSchema } from './schemas/user.schema';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { AuthGuard } from './guards/auth.guard';
+import { CurrentUserInterceptor } from './interceptor/current-user.interceptor';
+import {
+  createUserSchema,
+  loginUserSchema,
+  signUpUserSchema,
+  updateUserSchema,
+} from './schemas/user.schema';
+import { User } from './user.entity';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -36,5 +47,27 @@ export class UserController {
     const { value, error } = updateUserSchema.validate(body);
     if (error) throw error;
     return this.userService.updateUser(value, id);
+  }
+
+  @Post('/signup')
+  signupUser(@Body() body) {
+    const { value, error } = signUpUserSchema.validate(body);
+    if (error) throw error;
+    return this.userService.signupUser(body);
+  }
+
+  @Post('/login')
+  loginUser(@Body() body) {
+    const { value, error } = loginUserSchema.validate(body);
+    if (error) throw error;
+    return this.userService.loginUser(value);
+  }
+
+  @Get('/whoami')
+  @UseInterceptors(CurrentUserInterceptor)
+  // @UseGuards(AuthGuard)
+  getUser(@CurrentUser() user: User) {
+    // user is the current logged in user
+    return user;
   }
 }

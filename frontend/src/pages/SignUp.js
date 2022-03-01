@@ -22,19 +22,19 @@ function SignUp() {
     }
 
     try {
-      const user = await userService.signUpUser(name, email, password);
+      const user = await userService.signUpUser({ name, email, password });
       if (user.data) {
-        dispatch(signUpAction(user.data));
-        toast.success("signed up");
+        // dispatch(signUpAction(user.data));
+        toast.success("signed up,please login in");
         setEmail("");
         setPassword("");
         setName("");
-        history.push("/");
+        history.push("/login");
       } else if (user.error) {
         throw new Error(user.message);
       }
     } catch (err) {
-      toast.error(err.message);
+      toast.error(err.response.data.message);
     }
   };
 

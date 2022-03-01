@@ -61,7 +61,7 @@ export default function UserCard({ user, handleToggle }) {
     handleToggle();
   };
   return (
-    <Card className="flex items-start justify-around w-1/2 mx-auto p-2  my-5">
+    <Card className="flex items-start justify-around  mx-auto p-2  my-5">
       <div>
         {editable ? (
           <div className="flex items-center">

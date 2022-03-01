@@ -10,6 +10,7 @@ function NavBar() {
 
   const logout = () => {
     dispatch(logoutAction());
+    localStorage.removeItem("user");
   };
 
   const showAllUsers = () => {

@@ -4,39 +4,33 @@ import { usersData } from "../data/userData";
 const API_URL = "http://localhost:5000";
 
 export const userService = {
-  logInUser: async (email, password) => {
-    return {
-      data: {
-        email,
-        name: "Random user 1",
-        // role: Math.random() > 0.5 ? "user" : "admin",
-        isAdmin: Math.random() > 0.5 ? true : false,
-        // isAdmin: false, //true// backend
-        token: Math.floor(Math.random() * 15000),
-      },
-    };
-
-    // for error
-    // return {
-    //   error: true,
-    //   message: "Invalid Credentials",
-    // };
+  logInUser: async (data) => {
+    const { email, password } = data;
+    console.log(email, password);
+    const loggedInUser = await axios.post(`${API_URL}/user/login`, {
+      email,
+      password,
+    });
+    if (loggedInUser?.data) {
+      localStorage.setItem("user", JSON.stringify(loggedInUser.data));
+      console.log(loggedInUser.data);
+      return {
+        data: loggedInUser.data,
+      };
+    }
   },
-  signUpUser: async (name, email, password) => {
+
+  signUpUser: async (data) => {
+    const { name, email, password } = data;
+    const createdUser = await axios.post(`${API_URL}/user/signup`, {
+      name,
+      email,
+      password,
+    });
+    // console.log(createdUser.data);
     return {
-      data: {
-        name,
-        email,
-        // role: Math.random() > 0.5 ? "user" : "admin",
-        isAdmin: Math.random() > 0.5 ? true : false,
-        token: Math.floor(Math.random() * 15000),
-      },
+      data: createdUser.data,
     };
-    // for error
-    // return {
-    //   error: true,
-    //   message: "Invalid Credentials",
-    // };
   },
 
   getAllUsers: async () => {

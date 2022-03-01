@@ -1,5 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { User } from './user.entity';
+import * as bcrypt from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class UserService {
@@ -20,6 +26,7 @@ export class UserService {
       throw new NotFoundException();
     }
   }
+
   async updateUser(data, id) {
     const userTobeUpdated = await User.findOne(id);
     if (userTobeUpdated) {
@@ -28,5 +35,48 @@ export class UserService {
     } else {
       throw new NotFoundException();
     }
+  }
+
+  async signupUser(data) {
+    const { name, email, password } = data;
+    const checkUser = await User.findOne({ email });
+    if (checkUser) throw new BadRequestException('email already in use');
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+    const user = User.create({
+      name: name,
+      email: email,
+      password: hashedPassword,
+    });
+    return User.save(user);
+  }
+
+  async loginUser(data) {
+    const { email, password } = data;
+    const user = await User.findOne({ email });
+
+    if (!user) throw new NotFoundException(`no user found with ${email} email`);
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      throw new NotFoundException('email or password do not match');
+    }
+
+    const token = jwt.sign(
+      {
+        userId: user.id,
+      },
+      'my-super-secret-string',
+      {
+        expiresIn: '2h',
+      },
+    );
+    return { ...user, token };
+  }
+
+  async findById(id) {
+    const user = await User.findOne(id);
+    if (!user) throw new NotFoundException(`no user found with ${id} email`);
+    return user;
   }
 }

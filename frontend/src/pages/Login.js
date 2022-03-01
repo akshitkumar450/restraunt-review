@@ -21,7 +21,7 @@ function Login() {
       return;
     }
     try {
-      const user = await userService.logInUser(email, password);
+      const user = await userService.logInUser({ email, password });
       if (user.data) {
         dispatch(loginAction(user.data));
         toast.success("logged in");
@@ -32,7 +32,7 @@ function Login() {
         throw new Error(user.message);
       }
     } catch (err) {
-      toast.error(err.message);
+      toast.error(err.response.data.message);
     }
   };
 

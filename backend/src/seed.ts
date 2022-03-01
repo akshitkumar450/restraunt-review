@@ -24,6 +24,7 @@ async function bootstrap() {
     user.name = usersData[i].name;
     user.email = usersData[i].email;
     user.password = usersData[i].password;
+    user.isAdmin = usersData[i].isAdmin;
     await user.save();
   }
 
