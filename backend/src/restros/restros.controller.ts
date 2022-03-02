@@ -36,8 +36,14 @@ export class RestrosController {
 
   @Put('/:id')
   updateRestraunt(@Param() id: string, @Body() body) {
+    console.log(body);
     const { value, error } = updateRestroSchema.validate(body);
     if (error) throw error;
     return this.restroService.updateRestraunt(id, value);
+  }
+
+  @Get('/:id')
+  getRestraunt(@Param() id) {
+    return this.restroService.getRestraunt(id);
   }
 }

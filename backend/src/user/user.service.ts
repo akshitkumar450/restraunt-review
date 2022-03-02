@@ -68,7 +68,7 @@ export class UserService {
       },
       'my-super-secret-string',
       {
-        expiresIn: '2h',
+        expiresIn: '1d',
       },
     );
     return { ...user, token };

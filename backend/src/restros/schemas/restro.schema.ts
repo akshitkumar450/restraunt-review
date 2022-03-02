@@ -10,4 +10,5 @@ export const updateRestroSchema = Joi.object({
   name: Joi.string(),
   location: Joi.string(),
   img: Joi.string(),
+  rating: Joi.string(),
 });

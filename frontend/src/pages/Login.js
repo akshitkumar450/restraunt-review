@@ -24,6 +24,7 @@ function Login() {
       const user = await userService.logInUser({ email, password });
       if (user.data) {
         dispatch(loginAction(user.data));
+        localStorage.setItem("user-token", JSON.stringify(user.data.token));
         toast.success("logged in");
         setEmail("");
         setPassword("");

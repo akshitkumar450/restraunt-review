@@ -1,4 +1,11 @@
-import { Column, PrimaryGeneratedColumn, Entity, BaseEntity } from 'typeorm';
+import { Review } from 'src/reviews/review.entity';
+import {
+  Column,
+  PrimaryGeneratedColumn,
+  Entity,
+  BaseEntity,
+  OneToMany,
+} from 'typeorm';
 
 @Entity()
 export class User extends BaseEntity {
@@ -16,4 +23,7 @@ export class User extends BaseEntity {
 
   @Column({ default: false })
   isAdmin: boolean;
+
+  @OneToMany(() => Review, (review) => review.user)
+  reviews: Review[];
 }

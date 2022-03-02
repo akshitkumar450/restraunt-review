@@ -1,4 +1,11 @@
-import { Column, PrimaryGeneratedColumn, Entity, BaseEntity } from 'typeorm';
+import { Review } from 'src/reviews/review.entity';
+import {
+  Column,
+  PrimaryGeneratedColumn,
+  Entity,
+  BaseEntity,
+  OneToMany,
+} from 'typeorm';
 
 @Entity()
 export class Restros extends BaseEntity {
@@ -19,4 +26,7 @@ export class Restros extends BaseEntity {
 
   @Column({ default: 0 })
   rating: number;
+
+  @OneToMany(() => Review, (review) => review.restraunt)
+  review: Review[];
 }

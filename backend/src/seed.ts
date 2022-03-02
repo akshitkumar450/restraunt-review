@@ -4,28 +4,36 @@ import { Restros } from './restros/restro.entity';
 import { restrosData } from './data/restroData';
 import { usersData } from './data/userData';
 import { User } from './user/user.entity';
+import { Review } from './reviews/review.entity';
 
 // npx ts-node src/seed
 async function bootstrap() {
   const app = await NestFactory.createApplicationContext(AppModule);
   // application logic...
 
-  for (let i = 0; i < restrosData.length; i++) {
-    let restaurant = new Restros();
-    restaurant.name = restrosData[i].name;
-    restaurant.img = restrosData[i].img;
-    restaurant.location = restrosData[i].location;
-    restaurant.rating = restrosData[i].avgRating;
-    await restaurant.save();
-  }
+  // for (let i = 0; i < restrosData.length; i++) {
+  //   let restaurant = new Restros();
+  //   restaurant.name = restrosData[i].name;
+  //   restaurant.img = restrosData[i].img;
+  //   restaurant.location = restrosData[i].location;
+  //   restaurant.rating = restrosData[i].avgRating;
+  //   await restaurant.save();
+  // }
 
-  for (let i = 0; i < usersData.length; i++) {
-    let user = new User();
-    user.name = usersData[i].name;
-    user.email = usersData[i].email;
-    user.password = usersData[i].password;
-    user.isAdmin = usersData[i].isAdmin;
-    await user.save();
+  // for (let i = 0; i < usersData.length; i++) {
+  //   let user = new User();
+  //   user.name = usersData[i].name;
+  //   user.email = usersData[i].email;
+  //   user.password = usersData[i].password;
+  //   user.isAdmin = usersData[i].isAdmin;
+  //   await user.save();
+  // }
+
+  for (let i = 0; i < 5; i++) {
+    let review = new Review();
+    review.comment = `Review ${i + 1} comment`;
+    review.rating = i + 1;
+    await review.save();
   }
 
   //   const adminUser = new UserEntity();

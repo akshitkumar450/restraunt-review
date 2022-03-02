@@ -15,7 +15,7 @@ export class RestrosService {
   async deleteRestrant(id) {
     const restrauntToBeDeleted = await Restros.findOne(id);
     if (restrauntToBeDeleted) {
-      await Restros.delete(id);
+      await Restros.delete(restrauntToBeDeleted);
       return {};
     } else {
       throw new NotFoundException();
@@ -30,5 +30,13 @@ export class RestrosService {
     } else {
       throw new NotFoundException();
     }
+  }
+
+  async getRestraunt(id) {
+    const restro = await Restros.findOne(id, {
+      relations: ['review', 'review.user'],
+    });
+    if (!restro) throw new NotFoundException();
+    return restro;
   }
 }

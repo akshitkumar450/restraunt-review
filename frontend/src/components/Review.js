@@ -18,10 +18,8 @@ function Review({ comment, name, date, reviewRating }) {
   return (
     <div className="ring-1 ring-gray-300 p-2 rounded-lg bg-gray-300 lg:w-1/4">
       <p className="font-bold">{name}</p>
-      <p className="italic first-letter:text-gray-600 first-letter:text-2xl">
-        {comment}
-      </p>
-      <p className="font-semibold">{date}</p>
+      <p className="italic">{comment}</p>
+      <p className="font-semibold">{new Date(date).toDateString()}</p>
       <Rating
         name="simple-controlled"
         value={rating}

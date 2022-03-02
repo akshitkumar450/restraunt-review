@@ -39,7 +39,7 @@ export default function Home() {
       setLocation("");
       setName("");
       // setRating(0);
-      console.log(data.data);
+      // console.log(data.data);
       setToggleForm(false);
       handleToggle();
     } catch (err) {
