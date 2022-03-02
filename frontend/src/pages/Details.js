@@ -1,11 +1,4 @@
-import {
-  TextareaAutosize,
-  Button,
-  FormControl,
-  Select,
-  MenuItem,
-  Rating,
-} from "@mui/material";
+import { TextareaAutosize, Button, Rating } from "@mui/material";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
@@ -25,18 +18,17 @@ function Details() {
   const [toggle, setToggle] = useState(false);
 
   const handleToggle = () => {
-    setToggle();
+    setToggle(!toggle);
   };
 
   useEffect(() => {
+    console.log("runned");
     const fetchData = async (id) => {
       try {
         const currentRestro = await postService.getAllReviews(id);
+        console.log(currentRestro.data.reviews, "curret restro");
         const allReviews = currentRestro.data.reviews.review;
-        let sum = 0;
-        allReviews.forEach((review) => (sum += +review.rating));
-        const avgRating = Math.floor(sum / allReviews.length);
-        setRestro({ ...currentRestro.data.reviews, rating: avgRating });
+        setRestro({ ...currentRestro.data.reviews });
         setReviews(allReviews);
       } catch (err) {
         console.log(err.message);
@@ -47,14 +39,18 @@ function Details() {
 
   const addComment = async (e) => {
     e.preventDefault();
-    console.log(comment, rating);
+    // console.log(comment, rating);
     try {
       const data = await postService.addReview({
         comment,
         rating,
         restrauntId: id,
       });
-      console.log(data.data);
+      console.log(data.data.avgRating);
+      // setRating(data.data.avgRating);
+      // restro.rating = data.data.avgRating;
+      // setRestro({ ...restro, rating: data.data.avgRating });
+
       handleToggle();
     } catch (err) {
       console.log(err.message);
@@ -92,7 +88,6 @@ function Details() {
 
           <div className="flex flex-wrap gap-5 justify-center">
             {reviews.map((review, idx) => {
-              console.log(review);
               return (
                 <Review
                   key={idx}

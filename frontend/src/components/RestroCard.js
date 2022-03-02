@@ -1,5 +1,5 @@
 import { Card, Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { postService } from "../services/PostServices";
@@ -10,11 +10,15 @@ import { useLocation } from "react-router-dom";
 function RestroCard({ restro, handleToggle }) {
   const location = useLocation();
   const user = useSelector((state) => state.user.user);
-
+  console.log(restro);
   const [editable, setEditable] = useState(false);
   const [editName, setEditName] = useState("");
   const [editLocation, setEditLocation] = useState("");
   const [rating, setRating] = useState(restro.rating);
+
+  useEffect(() => {
+    setRating(restro.rating);
+  }, [restro]);
 
   const handleEdit = () => {
     setEditable(true);
@@ -28,7 +32,7 @@ function RestroCard({ restro, handleToggle }) {
         editName,
         editLocation,
       });
-      console.log(data);
+      // console.log(data);
       setEditable(false);
       handleToggle();
     } catch (err) {
