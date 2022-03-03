@@ -36,7 +36,17 @@ export class RestrosService {
     const restro = await Restros.findOne(id, {
       relations: ['review', 'review.user'],
     });
+    // console.log(restro.review.length);
+    // restro.review.sort()
+    restro.review.sort((a, b) => a.rating - b.rating);
+    // console.log(restro.review[0]);
+    const lowestRating = restro.review[0];
+    const highestRating = restro.review[restro.review.length - 1];
+
+    // console.log(lowestRating);
+    // console.log(highestRating);
+
     if (!restro) throw new NotFoundException();
-    return restro;
+    return { restro, lowestRating, highestRating };
   }
 }

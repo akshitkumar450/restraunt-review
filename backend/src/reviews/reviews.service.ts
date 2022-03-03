@@ -15,17 +15,17 @@ export class ReviewsService {
     await review.save();
 
     const restro = await Restros.findOne(data.restrauntId);
-    console.log(restro);
+    // console.log(restro);
     const allRating = await Review.find({
       where: {
         restraunt: restro.id,
       },
     });
     const ratingsSum = allRating.reduce((acc, curr) => acc + curr.rating, 0);
-    console.log(ratingsSum);
+    // console.log(ratingsSum);
 
     const avgRating = ratingsSum / allRating.length;
-    console.log(avgRating);
+    // console.log(avgRating);
 
     restro.rating = Math.floor(avgRating);
     await restro.save();

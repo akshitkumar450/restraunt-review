@@ -1,7 +1,8 @@
+import * as bcrypt from 'bcrypt';
 export const usersData = [
   {
-    name: 'a',
-    email: 'a@test.com',
+    name: 'admin',
+    email: 'admin@test.com',
     password: '132456',
     isAdmin: true,
   },

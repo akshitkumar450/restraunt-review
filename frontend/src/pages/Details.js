@@ -16,17 +16,26 @@ function Details() {
   const [rating, setRating] = useState(0);
   const [reviews, setReviews] = useState([]);
   const [toggle, setToggle] = useState(false);
+  const [highestRaing, setHighestRating] = useState("");
+  const [lowestRating, setLlowestRating] = useState("");
+  const [currentRating, setCurrentRating] = useState("");
 
   const handleToggle = () => {
     setToggle(!toggle);
   };
 
   useEffect(() => {
-    console.log("runned");
+    // console.log("runned");
     const fetchData = async (id) => {
       try {
         const currentRestro = await postService.getAllReviews(id);
-        console.log(currentRestro.data.reviews, "curret restro");
+        // console.log(currentRestro.data.reviews, "curret restro");
+        // console.log(currentRestro.data.lowestRating, "lowest ");
+        // console.log(currentRestro.data.highestRating, "high");
+
+        setHighestRating(currentRestro.data.highestRating);
+        setLlowestRating(currentRestro.data.lowestRating);
+
         const allReviews = currentRestro.data.reviews.review;
         setRestro({ ...currentRestro.data.reviews });
         setReviews(allReviews);
@@ -46,11 +55,13 @@ function Details() {
         rating,
         restrauntId: id,
       });
-      console.log(data.data.avgRating);
+      setCurrentRating(data.data.review);
+      // console.log(data.data.avgRating, "avg");
       // setRating(data.data.avgRating);
       // restro.rating = data.data.avgRating;
       // setRestro({ ...restro, rating: data.data.avgRating });
-
+      setComment("");
+      setRating(0);
       handleToggle();
     } catch (err) {
       console.log(err.message);
@@ -86,18 +97,45 @@ function Details() {
             </Button>
           </div>
 
-          <div className="flex flex-wrap gap-5 justify-center">
-            {reviews.map((review, idx) => {
-              return (
+          <div className="grid grid-cols-3 mx-auto max-w-5xl gap-5 justify-center">
+            {/* lowestRating */}
+            <div className="col-span-1">
+              <h1 className="text-center">Lowest Rating</h1>
+              {lowestRating && (
                 <Review
-                  key={idx}
-                  comment={review.comment}
-                  date={review.createdAt}
-                  name={review.user.name}
-                  reviewRating={review.rating}
+                  name={lowestRating?.user?.name}
+                  comment={lowestRating?.comment}
+                  date={lowestRating?.createdAt}
+                  reviewRating={lowestRating?.rating}
                 />
-              );
-            })}
+              )}
+            </div>
+
+            {/* highest rating */}
+            <div className="col-span-1">
+              <h1 className="text-center">highest Rating</h1>
+              {highestRaing && (
+                <Review
+                  name={highestRaing?.user?.name}
+                  comment={highestRaing?.comment}
+                  date={highestRaing?.createdAt}
+                  reviewRating={highestRaing?.rating}
+                />
+              )}
+            </div>
+
+            {/* current rating */}
+            <div className="col-span-1">
+              <h1 className="text-center">current Rating</h1>
+              {currentRating && (
+                <Review
+                  name={currentRating?.user?.name}
+                  comment={currentRating?.comment}
+                  date={currentRating?.createdAt}
+                  reviewRating={currentRating?.rating}
+                />
+              )}
+            </div>
           </div>
         </>
       ) : (

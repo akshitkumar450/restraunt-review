@@ -105,6 +105,7 @@ export const postService = {
 
   addReview: async (data) => {
     const { comment, rating, restrauntId } = data;
+    // console.log(rating);
     const config = {
       headers: {
         token: JSON.parse(localStorage.getItem("user-token")),
@@ -126,9 +127,12 @@ export const postService = {
 
   getAllReviews: async (id) => {
     const reviews = await axios.get(`${API_URL}/restros/${id}`);
+    // console.log(reviews);
     return {
       data: {
-        reviews: reviews.data,
+        reviews: reviews.data.restro,
+        lowestRating: reviews.data.lowestRating,
+        highestRating: reviews.data.highestRating,
       },
     };
   },

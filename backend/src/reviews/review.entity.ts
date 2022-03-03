@@ -23,9 +23,9 @@ export class Review extends BaseEntity {
   @CreateDateColumn()
   createdAt: Date;
 
-  @ManyToOne(() => User, (user) => user.reviews)
+  @ManyToOne(() => User, (user) => user.reviews, { onDelete: 'CASCADE' })
   user: User;
 
-  @ManyToOne(() => Restros, (restro) => restro.id)
+  @ManyToOne(() => Restros, (restro) => restro.id, { onDelete: 'CASCADE' })
   restraunt: string;
 }

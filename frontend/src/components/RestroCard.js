@@ -10,7 +10,7 @@ import { useLocation } from "react-router-dom";
 function RestroCard({ restro, handleToggle }) {
   const location = useLocation();
   const user = useSelector((state) => state.user.user);
-  console.log(restro);
+  // console.log(restro);
   const [editable, setEditable] = useState(false);
   const [editName, setEditName] = useState("");
   const [editLocation, setEditLocation] = useState("");
