@@ -2,8 +2,10 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useLoader from "./hooks/useLoader";
 import { loginAction } from "./redux/actions/userActions";
 import Routes from "./Routes";
+import Loader from "./components/Loader";
 
 function App() {
   const dispatch = useDispatch();
@@ -14,9 +16,17 @@ function App() {
     }
   }, [dispatch]);
 
+  const loading = useLoader();
   return (
     <div>
-      <Routes />
+      {loading ? (
+        <Loader loading={loading} />
+      ) : (
+        <>
+          <Routes />
+        </>
+      )}
+
       <ToastContainer autoClose={500} />
     </div>
   );

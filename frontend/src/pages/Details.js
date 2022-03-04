@@ -6,6 +6,8 @@ import Review from "../components/Review";
 import RestroCard from "../components/RestroCard";
 import { restrosData } from "../data/restroData";
 import { postService } from "../services/PostServices";
+import useLoader from "../hooks/useLoader";
+import Loader from "../components/Loader";
 
 function Details() {
   const { id } = useParams();
@@ -16,9 +18,10 @@ function Details() {
   const [rating, setRating] = useState(0);
   const [reviews, setReviews] = useState([]);
   const [toggle, setToggle] = useState(false);
-  const [highestRaing, setHighestRating] = useState("");
+  const [highestRating, setHighestRating] = useState("");
   const [lowestRating, setLlowestRating] = useState("");
   const [currentRating, setCurrentRating] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -26,6 +29,7 @@ function Details() {
 
   useEffect(() => {
     // console.log("runned");
+    setLoading(true);
     const fetchData = async (id) => {
       try {
         const currentRestro = await postService.getAllReviews(id);
@@ -39,6 +43,7 @@ function Details() {
         const allReviews = currentRestro.data.reviews.review;
         setRestro({ ...currentRestro.data.reviews });
         setReviews(allReviews);
+        setLoading(false);
       } catch (err) {
         console.log(err.message);
       }
@@ -67,10 +72,13 @@ function Details() {
       console.log(err.message);
     }
   };
+  // const loading = useLoader();
 
   return (
     <div className="p-5">
-      {restro ? (
+      {loading ? (
+        <Loader loading={loading} />
+      ) : restro ? (
         <>
           <RestroCard restro={restro} />
           <div className="w-full flex flex-col items-center mx-auto my-10">
@@ -103,10 +111,12 @@ function Details() {
               <h1 className="text-center">Lowest Rating</h1>
               {lowestRating && (
                 <Review
+                  id={lowestRating.id}
                   name={lowestRating?.user?.name}
                   comment={lowestRating?.comment}
                   date={lowestRating?.createdAt}
                   reviewRating={lowestRating?.rating}
+                  handleToggle={handleToggle}
                 />
               )}
             </div>
@@ -114,12 +124,14 @@ function Details() {
             {/* highest rating */}
             <div className="w-1/3">
               <h1 className="text-center">highest Rating</h1>
-              {highestRaing && (
+              {highestRating && (
                 <Review
-                  name={highestRaing?.user?.name}
-                  comment={highestRaing?.comment}
-                  date={highestRaing?.createdAt}
-                  reviewRating={highestRaing?.rating}
+                  id={highestRating.id}
+                  name={highestRating?.user?.name}
+                  comment={highestRating?.comment}
+                  date={highestRating?.createdAt}
+                  reviewRating={highestRating?.rating}
+                  handleToggle={handleToggle}
                 />
               )}
             </div>
@@ -129,10 +141,12 @@ function Details() {
               <div className="w-1/3">
                 <h1 className="text-center">current Rating</h1>
                 <Review
+                  id={currentRating.id}
                   name={currentRating?.user?.name}
                   comment={currentRating?.comment}
                   date={currentRating?.createdAt}
                   reviewRating={currentRating?.rating}
+                  handleToggle={handleToggle}
                 />
               </div>
             )}

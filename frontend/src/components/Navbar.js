@@ -18,7 +18,9 @@ function NavBar() {
   };
 
   return (
-    <div className="sticky z-10 top-0 w-full bg-blue-500 text-white flex items-center justify-around h-16 ">
+    <div
+      className="sticky z-10 top-0 w-full bg-blue-500 text-white flex items-center justify-around 
+    h-16 ">
       <h2 className="text-3xl cursor-pointer">
         <Link to="/">Restro-App</Link>
       </h2>

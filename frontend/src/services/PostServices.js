@@ -136,4 +136,32 @@ export const postService = {
       },
     };
   },
+  deleteReview: async (id) => {
+    const deletedReview = await axios.delete(`${API_URL}/reviews/${id}`);
+    console.log(deletedReview);
+    return {
+      data: deletedReview.data,
+    };
+  },
+
+  updateReview: async (id, data) => {
+    const { editComment } = data;
+    const config = {
+      headers: {
+        token: JSON.parse(localStorage.getItem("user-token")),
+      },
+    };
+    console.log({ editComment, id });
+    const updatedReview = await axios.put(
+      `${API_URL}/reviews/${id}`,
+      {
+        comment: editComment,
+      },
+      config
+    );
+    // console.log(updatedReview);
+    return {
+      data: updatedReview.data,
+    };
+  },
 };

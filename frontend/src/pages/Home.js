@@ -13,7 +13,6 @@ export default function Home() {
   const [toggle, setToggle] = useState(true);
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
-  const [rating, setRating] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,15 +73,7 @@ export default function Home() {
                 onChange={(e) => setLocation(e.target.value)}
               />
             </div>
-            <div>
-              <Rating
-                name="simple-controlled"
-                value={rating}
-                onChange={(event, newValue) => {
-                  setRating(newValue);
-                }}
-              />
-            </div>
+
             <div className="flex gap-2 ">
               <Button type="submit" variant="contained">
                 Add Restraunt

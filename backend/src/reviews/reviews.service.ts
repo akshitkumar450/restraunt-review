@@ -1,11 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Restros } from 'src/restros/restro.entity';
 import { Review } from './review.entity';
 
 @Injectable()
 export class ReviewsService {
   async createReview(data, user) {
-    console.log(data, user);
+    // console.log(data, user);
     const newComment = Review.create(data);
     const review = new Review();
     review.comment = data.comment;
@@ -30,5 +30,26 @@ export class ReviewsService {
     restro.rating = Math.floor(avgRating);
     await restro.save();
     return { review, avgRating: restro.rating };
+  }
+
+  async deleteReview(id) {
+    const reviewToBeDeleted = await Review.findOne(id);
+    // console.log(reviewToBeDeleted);
+    return Review.remove(reviewToBeDeleted);
+  }
+
+  async updateReview(id, data) {
+    // console.log(id);
+
+    const reviewToBeUpdated = await Review.findOne(id);
+    // console.log(reviewToBeUpdated);
+    // console.log(data);
+    if (reviewToBeUpdated) {
+      reviewToBeUpdated.comment = data.comment;
+      Object.assign(reviewToBeUpdated, data);
+      return Review.save(reviewToBeUpdated);
+    } else {
+      throw new NotFoundException();
+    }
   }
 }

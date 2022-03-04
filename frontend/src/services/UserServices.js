@@ -6,14 +6,14 @@ const API_URL = "http://localhost:5000";
 export const userService = {
   logInUser: async (data) => {
     const { email, password } = data;
-    console.log(email, password);
+    // console.log(email, password);
     const loggedInUser = await axios.post(`${API_URL}/user/login`, {
       email,
       password,
     });
     if (loggedInUser?.data) {
       localStorage.setItem("user", JSON.stringify(loggedInUser.data));
-      console.log(loggedInUser.data);
+      // console.log(loggedInUser.data);
       return {
         data: loggedInUser.data,
       };
@@ -42,7 +42,7 @@ export const userService = {
 
   deleteUser: async (id) => {
     const users = await axios.delete(`${API_URL}/user/${id}`);
-    console.log(users);
+    // console.log(users);
     return {};
   },
 
