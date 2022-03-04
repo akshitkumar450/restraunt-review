@@ -97,9 +97,9 @@ function Details() {
             </Button>
           </div>
 
-          <div className="grid grid-cols-3 mx-auto max-w-5xl gap-5 justify-center">
+          <div className="flex mx-auto max-w-5xl gap-5 justify-center">
             {/* lowestRating */}
-            <div className="col-span-1">
+            <div className="w-1/3">
               <h1 className="text-center">Lowest Rating</h1>
               {lowestRating && (
                 <Review
@@ -112,7 +112,7 @@ function Details() {
             </div>
 
             {/* highest rating */}
-            <div className="col-span-1">
+            <div className="w-1/3">
               <h1 className="text-center">highest Rating</h1>
               {highestRaing && (
                 <Review
@@ -125,17 +125,17 @@ function Details() {
             </div>
 
             {/* current rating */}
-            <div className="col-span-1">
-              <h1 className="text-center">current Rating</h1>
-              {currentRating && (
+            {currentRating && (
+              <div className="w-1/3">
+                <h1 className="text-center">current Rating</h1>
                 <Review
                   name={currentRating?.user?.name}
                   comment={currentRating?.comment}
                   date={currentRating?.createdAt}
                   reviewRating={currentRating?.rating}
                 />
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </>
       ) : (

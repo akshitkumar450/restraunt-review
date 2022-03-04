@@ -30,6 +30,17 @@ export class UserService {
   async updateUser(data, id) {
     const userTobeUpdated = await User.findOne(id);
     if (userTobeUpdated) {
+      // console.log(userTobeUpdated, 'old user');
+      // console.log(data, 'old data');
+      if (data.password !== '') {
+        const salt = await bcrypt.genSalt();
+        const newHashedPassword = await bcrypt.hash(data.password, salt);
+        data.password = newHashedPassword;
+      } else {
+        data.password = userTobeUpdated.password;
+      }
+      // console.log(data, 'new data');
+      // console.log(userTobeUpdated, 'new user');
       Object.assign(userTobeUpdated, data);
       return User.save(userTobeUpdated);
     } else {

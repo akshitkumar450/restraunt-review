@@ -18,7 +18,7 @@ export default function UserCard({ user, handleToggle }) {
     setEditName(user.name);
     setEditEmail(user.email);
     setEditRole(user.isAdmin ? "admin" : "user");
-    setEditPassword(user.password);
+    // setEditPassword(user.password);
   };
 
   const handleEdit = () => {
@@ -30,6 +30,8 @@ export default function UserCard({ user, handleToggle }) {
     setEditable(false);
     // console.log(editName, editEmail, editPassword, editRole);
     const isAdmin = editRole === "admin" ? true : false;
+    // console.log(editName, editRole, editPassword, editEmail);
+    setEditPassword("");
     try {
       const data = await userService.updateUser(user.id, {
         editName,
@@ -37,12 +39,13 @@ export default function UserCard({ user, handleToggle }) {
         isAdmin,
         editPassword,
       });
-      // console.log(data);
+      console.log(data);
       setEditable(false);
       handleToggle();
     } catch (err) {
       console.log(err);
     }
+
     // user.name = editName;
     // user.email = editEmail;
     // user.isAdmin = editRole === "admin" ? true : false;
@@ -102,7 +105,7 @@ export default function UserCard({ user, handleToggle }) {
             />
           </div>
         ) : (
-          <h1>Password: {user.password}</h1>
+          <h1>Password: </h1>
         )}
       </div>
       <div>

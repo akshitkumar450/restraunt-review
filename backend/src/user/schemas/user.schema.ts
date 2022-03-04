@@ -10,7 +10,7 @@ export const createUserSchema = Joi.object({
 export const updateUserSchema = Joi.object({
   name: Joi.string(),
   email: Joi.string(),
-  password: Joi.string(),
+  password: Joi.string().min(0), // if the password in coming empty while updating the user details
   isAdmin: Joi.boolean(),
 });
 
