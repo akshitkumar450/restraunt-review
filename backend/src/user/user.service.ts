@@ -13,7 +13,9 @@ export class UserService {
     return User.find();
   }
 
-  createUser(data) {
+  async createUser(data) {
+    const salt = await bcrypt.genSalt();
+    data.password = await bcrypt.hash(data.password, salt);
     const newUser = User.create(data);
     return User.save(newUser);
   }

@@ -101,7 +101,7 @@ function AllUsers() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <div>
+            {/* <div>
               <FormControl>
                 <Select
                   className="h-full"
@@ -113,7 +113,7 @@ function AllUsers() {
                   <MenuItem value="user">user</MenuItem>
                 </Select>
               </FormControl>
-            </div>
+            </div> */}
             <div className="flex gap-2">
               <Button type="submit" variant="contained">
                 Add User

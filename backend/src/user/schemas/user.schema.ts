@@ -4,7 +4,7 @@ export const createUserSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().required(),
   password: Joi.string().required(),
-  isAdmin: Joi.boolean(),
+  // isAdmin: Joi.boolean(),
 });
 
 export const updateUserSchema = Joi.object({

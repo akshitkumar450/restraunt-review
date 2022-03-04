@@ -47,12 +47,12 @@ export const userService = {
   },
 
   createUser: async (data) => {
-    const { name, email, password, isAdmin } = data;
+    const { name, email, password } = data;
     const users = await axios.post(`${API_URL}/user`, {
       name,
       email,
       password,
-      isAdmin,
+      // isAdmin,
     });
     // console.log(users.data);
     return {
@@ -60,7 +60,7 @@ export const userService = {
         name,
         email,
         password,
-        isAdmin,
+        // isAdmin,
       },
     };
   },
