@@ -45,11 +45,6 @@ export default function UserCard({ user, handleToggle }) {
     } catch (err) {
       console.log(err);
     }
-
-    // user.name = editName;
-    // user.email = editEmail;
-    // user.isAdmin = editRole === "admin" ? true : false;
-    // user.password = editPassword;
   };
 
   const handleCancel = () => {
@@ -58,7 +53,6 @@ export default function UserCard({ user, handleToggle }) {
   };
 
   const handleDelete = async () => {
-    // console.log(user.id);
     const usersAfterDelete = await userService.deleteUser(user.id);
     console.log(usersAfterDelete);
     handleToggle();

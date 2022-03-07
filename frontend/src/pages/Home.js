@@ -3,7 +3,7 @@ import RestroCard from "../components/RestroCard";
 import { postService } from "../services/PostServices";
 import Pagination from "@mui/material/Pagination";
 import { useSelector } from "react-redux";
-import { Button, Card, Rating, TextField } from "@mui/material";
+import { Button, Card, TextField } from "@mui/material";
 import { toast } from "react-toastify";
 
 export default function Home() {
@@ -13,18 +13,25 @@ export default function Home() {
   const [toggle, setToggle] = useState(true);
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await postService.getRestraunts();
-        setRestros(data.data);
+        const data = await postService.getRestraunts(page);
+        if (data.data.restros.length === 0) {
+          setPage(page - 1);
+        }
+        setRestros(data.data.restros);
+
+        setTotalPages(data.data.allRestros);
       } catch (err) {
         toast.error("error fetching data");
       }
     };
     fetchData();
-  }, [toggle]);
+  }, [toggle, page, totalPages]);
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -37,8 +44,6 @@ export default function Home() {
       toast.success("added");
       setLocation("");
       setName("");
-      // setRating(0);
-      // console.log(data.data);
       setToggleForm(false);
       handleToggle();
     } catch (err) {
@@ -107,7 +112,15 @@ export default function Home() {
           handleToggle={handleToggle}
         />
       ))}
-      <Pagination count={10} className="mx-auto" />
+
+      <Pagination
+        count={Math.ceil(totalPages / 3)}
+        page={page}
+        className="mx-auto my-10"
+        onChange={(event, value) => {
+          setPage(value);
+        }}
+      />
     </div>
   );
 }

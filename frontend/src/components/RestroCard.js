@@ -10,7 +10,6 @@ import { useLocation } from "react-router-dom";
 function RestroCard({ restro, handleToggle }) {
   const location = useLocation();
   const user = useSelector((state) => state.user.user);
-  // console.log(restro);
   const [editable, setEditable] = useState(false);
   const [editName, setEditName] = useState("");
   const [editLocation, setEditLocation] = useState("");
@@ -32,7 +31,6 @@ function RestroCard({ restro, handleToggle }) {
         editName,
         editLocation,
       });
-      // console.log(data);
       setEditable(false);
       handleToggle();
     } catch (err) {
@@ -43,7 +41,6 @@ function RestroCard({ restro, handleToggle }) {
   const handleDelete = async () => {
     try {
       const data = await postService.deleteRestraunt(restro.id);
-      console.log(data);
       handleToggle();
     } catch (err) {
       console.log(err);

@@ -50,6 +50,7 @@ function NavBar() {
   );
 }
 export default NavBar;
+
 const navigations = [
   {
     name: "Login",

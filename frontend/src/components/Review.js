@@ -23,7 +23,6 @@ function Review({ comment, name, date, reviewRating, id, handleToggle }) {
     }
   };
 
-  // console.log(user.name, name);
   const handleSave = async () => {
     const updatedReview = await postService.updateReview(id, { editComment });
     handleToggle();
@@ -41,7 +40,6 @@ function Review({ comment, name, date, reviewRating, id, handleToggle }) {
 
   const handleDelete = async () => {
     const deletedReview = await postService.deleteReview(id);
-    // console.log(deletedReview);
     handleToggle();
   };
 

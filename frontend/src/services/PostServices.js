@@ -1,30 +1,19 @@
-// import { restrosData } from "../data/restroData";
-
 import axios from "axios";
 
 const API_URL = "http://localhost:5000";
-
-// const API = axios.create({
-//   baseURL: "http://localhost:5000/",
-//   headers: {
-//     token: JSON.parse(localStorage.getItem("user-token")),
-//   },
-// });
-
-// // const config = {
-// //   headers: {
-// //     token: user?.token,
-// //   },
-// // };
-
 export const postService = {
-  getRestraunts: async () => {
+  getRestraunts: async (page) => {
     const config = {
       headers: {
         token: JSON.parse(localStorage.getItem("user-token")),
       },
     };
-    const restrosData = await axios.get(`${API_URL}/restros`, config);
+    // const page = await axios.get(`${API_URL}/reviews?page=5`);
+
+    const restrosData = await axios.get(
+      `${API_URL}/restros?page=${page}&limit=3`,
+      config
+    );
     return {
       data: restrosData.data,
     };
@@ -133,6 +122,7 @@ export const postService = {
         reviews: reviews.data.restro,
         lowestRating: reviews.data.lowestRating,
         highestRating: reviews.data.highestRating,
+        currentRating: reviews.data.currentRating,
       },
     };
   },
@@ -151,7 +141,7 @@ export const postService = {
         token: JSON.parse(localStorage.getItem("user-token")),
       },
     };
-    console.log({ editComment, id });
+    // console.log({ editComment, id });
     const updatedReview = await axios.put(
       `${API_URL}/reviews/${id}`,
       {

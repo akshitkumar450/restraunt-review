@@ -1,12 +1,4 @@
-import {
-  Button,
-  Card,
-  FormControl,
-  MenuItem,
-  Pagination,
-  Select,
-  TextField,
-} from "@mui/material";
+import { Button, Card, Pagination, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import UserCard from "../components/UserCard";
@@ -21,10 +13,6 @@ function AllUsers() {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [toggle, setToggle] = useState(false);
-
-  const handleChange = (event) => {
-    setRole(event.target.value);
-  };
 
   const handleToggle = () => {
     setToggle(!toggle);
@@ -45,7 +33,7 @@ function AllUsers() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setToggleForm(false);
-    console.log(name, email, password, role);
+    // console.log(name, email, password, role);
     const isAdmin = role === "admin" ? true : false;
 
     try {
@@ -101,19 +89,6 @@ function AllUsers() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            {/* <div>
-              <FormControl>
-                <Select
-                  className="h-full"
-                  value={role}
-                  id="demo-simple-select-1"
-                  inputProps={{ "aria-label": "Without label" }}
-                  onChange={handleChange}>
-                  <MenuItem value="admin">admin</MenuItem>
-                  <MenuItem value="user">user</MenuItem>
-                </Select>
-              </FormControl>
-            </div> */}
             <div className="flex gap-2">
               <Button type="submit" variant="contained">
                 Add User

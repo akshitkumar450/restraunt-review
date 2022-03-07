@@ -6,7 +6,6 @@ import Review from "../components/Review";
 import RestroCard from "../components/RestroCard";
 import { restrosData } from "../data/restroData";
 import { postService } from "../services/PostServices";
-import useLoader from "../hooks/useLoader";
 import Loader from "../components/Loader";
 
 function Details() {
@@ -28,17 +27,14 @@ function Details() {
   };
 
   useEffect(() => {
-    // console.log("runned");
     setLoading(true);
     const fetchData = async (id) => {
       try {
         const currentRestro = await postService.getAllReviews(id);
-        // console.log(currentRestro.data.reviews, "curret restro");
-        // console.log(currentRestro.data.lowestRating, "lowest ");
-        // console.log(currentRestro.data.highestRating, "high");
-
+        // console.log(currentRestro);
         setHighestRating(currentRestro.data.highestRating);
         setLlowestRating(currentRestro.data.lowestRating);
+        setCurrentRating(currentRestro.data.currentRating);
 
         const allReviews = currentRestro.data.reviews.review;
         setRestro({ ...currentRestro.data.reviews });
@@ -60,11 +56,6 @@ function Details() {
         rating,
         restrauntId: id,
       });
-      setCurrentRating(data.data.review);
-      // console.log(data.data.avgRating, "avg");
-      // setRating(data.data.avgRating);
-      // restro.rating = data.data.avgRating;
-      // setRestro({ ...restro, rating: data.data.avgRating });
       setComment("");
       setRating(0);
       handleToggle();
@@ -72,7 +63,6 @@ function Details() {
       console.log(err.message);
     }
   };
-  // const loading = useLoader();
 
   return (
     <div className="p-5">

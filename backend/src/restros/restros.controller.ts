@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { RestrosService } from './restros.service';
 import {
@@ -18,8 +19,9 @@ export class RestrosController {
   constructor(private restroService: RestrosService) {}
 
   @Get('/')
-  getAllRestraunt() {
-    return this.restroService.findAllRestros();
+  getAllRestraunt(@Query() query) {
+    // console.log(query);
+    return this.restroService.findAllRestros(query);
   }
 
   @Post('/')
