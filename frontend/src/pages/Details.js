@@ -9,6 +9,7 @@ import { postService } from "../services/PostServices";
 import Loader from "../components/Loader";
 
 function Details() {
+  console.log("details");
   const { id } = useParams();
   const history = useHistory();
 

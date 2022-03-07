@@ -13,31 +13,33 @@ function Routes() {
   return (
     <BrowserRouter>
       <Navbar />
-      {!user ? (
-        <Switch>
-          <Route exact path="/">
-            <Login />
-          </Route>
-          <Route exact path="/signup">
-            <SignUp />
-          </Route>
-          <Route exact path="/*">
-            <Redirect to="/" />
-          </Route>
-        </Switch>
-      ) : (
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route exact path="/users">
-            <AllUsers />
-          </Route>
-          <Route exact path="/details/:id">
-            <Details />
-          </Route>
-        </Switch>
-      )}
+      <Switch>
+        {!user ? (
+          <>
+            <Route exact path="/">
+              <Login />
+            </Route>
+            <Route exact path="/signup">
+              <SignUp />
+            </Route>
+          </>
+        ) : (
+          <>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route exact path="/users">
+              {user.isAdmin ? <AllUsers /> : <Redirect to="/" />}
+            </Route>
+            <Route exact path="/details/:id">
+              <Details />
+            </Route>
+          </>
+        )}
+        <Route path="/*">
+          <Redirect to="/" />
+        </Route>
+      </Switch>
     </BrowserRouter>
   );
 }

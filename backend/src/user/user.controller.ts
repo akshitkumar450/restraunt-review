@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -25,9 +26,9 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
-  fetchAllUsers() {
-    return this.userService.fetchAllUsers();
+  @Get('/')
+  fetchAllUsers(@Query() query) {
+    return this.userService.fetchAllUsers(query);
   }
 
   @Post()

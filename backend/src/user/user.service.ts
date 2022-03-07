@@ -9,8 +9,17 @@ import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class UserService {
-  fetchAllUsers() {
-    return User.find();
+  async fetchAllUsers(query) {
+    const allUsers = await User.count();
+    const page = query.page * 1 || 1;
+    const limit = query.limit * 1 || 5;
+    const skipVal = (page - 1) * limit;
+
+    const users = await User.find({
+      skip: skipVal,
+      take: limit,
+    });
+    return { allUsers, users };
   }
 
   async createUser(data) {

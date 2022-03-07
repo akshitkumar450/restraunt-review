@@ -11,6 +11,7 @@ function NavBar() {
   const logout = () => {
     dispatch(logoutAction());
     localStorage.clear();
+    history.push("/");
   };
 
   const showAllUsers = () => {
@@ -54,7 +55,7 @@ export default NavBar;
 const navigations = [
   {
     name: "Login",
-    link: "/login",
+    link: "/",
   },
   {
     name: "SignUp",

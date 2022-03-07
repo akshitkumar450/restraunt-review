@@ -33,8 +33,8 @@ export const userService = {
     };
   },
 
-  getAllUsers: async () => {
-    const users = await axios.get(`${API_URL}/user`);
+  getAllUsers: async (page) => {
+    const users = await axios.get(`${API_URL}/user?page=${page}&limit=3`);
     return {
       data: users.data,
     };

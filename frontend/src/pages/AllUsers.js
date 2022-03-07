@@ -14,6 +14,9 @@ function AllUsers() {
   const [role, setRole] = useState("");
   const [toggle, setToggle] = useState(false);
 
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
   const handleToggle = () => {
     setToggle(!toggle);
   };
@@ -21,14 +24,19 @@ function AllUsers() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const data = await userService.getAllUsers();
-        setUsers(data.data);
+        const data = await userService.getAllUsers(page);
+        if (data.data.users.length === 0) {
+          setPage(page - 1);
+        }
+
+        setTotalPages(data.data.allUsers);
+        setUsers(data.data.users);
       } catch (err) {
         console.log(err);
       }
     };
     fetchUsers();
-  }, [toggle]);
+  }, [toggle, page, totalPages]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -119,7 +127,15 @@ function AllUsers() {
           <UserCard key={user.id} user={user} handleToggle={handleToggle} />
         ))}
       </>
-      <Pagination count={10} className="mx-auto my-10" />
+
+      <Pagination
+        count={Math.ceil(totalPages / 3)}
+        page={page}
+        className="mx-auto my-10"
+        onChange={(event, value) => {
+          setPage(value);
+        }}
+      />
     </div>
   );
 }
